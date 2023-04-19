@@ -18,7 +18,6 @@ import numpy as np
     # st.sidebar.markdown("\n")
     # st.sidebar.download_button("Download encrypted image", encrypted_img, "encrypted.png", "image/png")
 
-    
 def main():
     st.set_page_config(layout="wide", page_title="")
 
@@ -29,9 +28,18 @@ def main():
 
     st.sidebar.write("## Upload and download :gear:")
     col1, col2 = st.columns(2)
-    image_path = st.sidebar.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
 
-    image = Image.open("nature.png") # Temp
+    if 'image' not in st.session_state:
+        st.session_state['image'] = None
+
+    image_path = st.sidebar.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+     
+    if st.write(st.session_state['image']) is None:
+        image = Image.open("nature.png")
+    if image_path is not None:
+        st.session_state['image'] = image_path  
+        image = Image.open(image_path)
+ 
     pass_1_choices = uce.factors(np.array(image).size) # Array of keys for pass 1 - need to reset per upload
 
     pass_1 = int(st.selectbox('Choose a key:', pass_1_choices))
