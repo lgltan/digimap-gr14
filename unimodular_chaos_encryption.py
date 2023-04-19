@@ -2,6 +2,7 @@ import numpy as np
 from PIL import Image
 import time
 from functools import reduce        # untuk faktor bilangan
+import io
 #from matplotlib import pyplot as plt
 
 
@@ -85,6 +86,7 @@ def encrypt(image_path, size, x0):
     
     # Save the cipher
     cipher_image = Image.fromarray(cipher)
+    bytes_image = io.BytesIO()
     return cipher_image
     # cipher_image.save('encrypted.png')
     
@@ -105,8 +107,8 @@ def encrypt(image_path, size, x0):
 def decrypt(gb, size, x0):
     print("Decryption process begin.")
     start_time = time.time()
-    gbku = Image.open(gb)
-    mgb = np.array(gbku)
+    #gbku = Image.open(gb)
+    mgb = np.array(gb)
     
     kunciku, balikku = generate_key(size, x0)
     
@@ -116,9 +118,10 @@ def decrypt(gb, size, x0):
     m_decipher = m_kali.reshape(mgb.shape).astype(np.uint8)
     
     decipher = Image.fromarray(m_decipher)
-    decipher.save('decryption.png')
-    print('Your decrypted image is called "decryption.png" in the same folder.')
-    print('The decryption time is ', time.time() - start_time, ' seconds.')
+    return decipher
+    # decipher.save('decryption.png')
+    # print('Your decrypted image is called "decryption.png" in the same folder.')
+    # print('The decryption time is ', time.time() - start_time, ' seconds.')
 
 
 def check_same(original_image, decrypted_image):
