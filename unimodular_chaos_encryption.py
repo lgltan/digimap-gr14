@@ -65,8 +65,6 @@ def generate_key(n, x0):
 
 
 def encrypt(image_path, size, x0):
-    print("="*50)
-    print("Encryption process begin.")
     start_time = time.time()
     
     # Load the image
@@ -87,21 +85,22 @@ def encrypt(image_path, size, x0):
     
     # Save the cipher
     cipher_image = Image.fromarray(cipher)
-    cipher_image.save('encrypted.png')
+    return cipher_image
+    # cipher_image.save('encrypted.png')
     
-    print("-----------------------------------------------------------------")
-    print('Your encrypted image is called "encrypted.png" in the same folder.')
-    print('The encryption time is', time.time() - start_time, 'seconds.')
+    # print("-----------------------------------------------------------------")
+    # print('Your encrypted image is called "encrypted.png" in the same folder.')
+    # print('The encryption time is', time.time() - start_time, 'seconds.')
     
-    # Get the second layer password
-    password2 = str(x0)
-    password2_length = len(password2)
-    password2 = password2[2:password2_length - 1]
+    # # Get the second layer password
+    # password2 = str(x0)
+    # password2_length = len(password2)
+    # password2 = password2[2:password2_length - 1]
     
-    print('Please remember your two-layer password:')
-    print('Password 1:', size)
-    print('Password 2:', password2)
-    print("-----------------------------------------------------------------")
+    # print('Please remember your two-layer password:')
+    # print('Password 1:', size)
+    # print('Password 2:', password2)
+    # print("-----------------------------------------------------------------")
 
 def decrypt(gb, size, x0):
     print("Decryption process begin.")
@@ -144,78 +143,77 @@ def factors(n):
 ##########################################################
 
 
+# def run(img, pass_1, pass_2):
+#     print("============================================================================")
+#     print("Digital Image Encryption Algorithm Trough Unimodular Matrix and Logistic Map")
+#     print("============================================================================")
+#     jawaban = input("Please select, you want to encrypt (e) or decrypt (d):")
+#     if jawaban == "e" or jawaban == "E":
+#         print("-------------------------")
+#         print("You will encrypt an image")
+#         print("-------------------------")
+#         print()
+#         gb = input("Now, insert your image with its extension (example: image.png):")
+#         gbku = Image.open(gb)
+#         mgb = np.array(gbku)
+#         ukuran = mgb.size
+#         faktor = factors(ukuran)
+
+#         # print ukuran
+#         print()
+#         print("----------------------------------------------------------------------------")
+#         print(faktor)
+#         print("----------------------------------------------------------------------------")
+
+#         password1 = int(input("Please choose one of the numbers in the set above as Password 1:"))
+#         # print password1
+#         while password1 not in faktor:
+#             print("Your choice are ", password1)
+#             print("Not in the given list.")
+#             print("-" * 50, "\nThe list of numbers are:")
+#             print(faktor)
+#             password1 = int(input("Please choose again the right one:"))
+#         print("Your Password 1 is: ", password1, "\n")
+#         pw2 = input("Enter Password 2 in the form of a number, maximum 14 digits (example: 22021985)\nPassword 2:")
+#         print("Your Password 2 is: ", pw2)
+#         password2 = float("0." + pw2 + "1")
+
+#         # proses enkripsi dimulai
+#         encrypt(img, pass_1, pass)
 
 
+#     else:
+#         print("*" * 80)
+#         print("Digital Image Decryption Algorithm Through Unimodular Matrix and Logistic Map")
+#         print("-" * 50)
+#         print()
 
-def main():
-    print("============================================================================")
-    print("Digital Image Encryption Algorithm Trough Unimodular Matrix and Logistic Map")
-    print("============================================================================")
-    jawaban = input("Please select, you want to encrypt (e) or decrypt (d):")
-    if jawaban == "e" or jawaban == "E":
-        print("-------------------------")
-        print("You will encrypt an image")
-        print("-------------------------")
-        print()
-        gb = input("Now, insert your image with its extension (example: image.png):")
-        gbku = Image.open(gb)
-        mgb = np.array(gbku)
-        ukuran = mgb.size
-        faktor = factors(ukuran)
+#         gb = input("Now, insert your encrypted image with its extension (example: image.png):")
+#         gbku = Image.open(gb)
+#         mgb = np.array(gbku)
+#         ukuran = mgb.size
+#         faktor = sorted(factors(ukuran))
 
-        # print ukuran
-        print()
-        print("----------------------------------------------------------------------------")
-        print(faktor)
-        print("----------------------------------------------------------------------------")
+#         # print ukuran
+#         print("----------------------------------------------------------------------------")
+#         print(faktor)
+#         print("----------------------------------------------------------------------------")
 
-        password1 = int(input("Please choose one of the numbers in the set above as Password 1:"))
-        # print password1
-        while password1 not in faktor:
-            print("Your choice are ", password1)
-            print("Not in the given list.")
-            print("-" * 50, "\nThe list of numbers are:")
-            print(faktor)
-            password1 = int(input("Please choose again the right one:"))
-        print("Your Password 1 is: ", password1, "\n")
-        pw2 = input("Enter Password 2 in the form of a number, maximum 14 digits (example: 22021985)\nPassword 2:")
-        print("Your Password 2 is: ", pw2)
-        password2 = float("0." + pw2 + "1")
+#         password1 = int(input("Please choose one of the numbers in the set above as Password 1:"))
+#         # print password1
+#         while password1 not in faktor:
+#             print("Your choice is ", password1)
+#             print("not in the given list.")
+#             print("-" * 50, "\nThe list of numbers are:")
+#             print(faktor)
+#             password1 = int(input("Please choose again the right one:"))
+#         print("Your Password 1 is: ", password1, "\n")
+#         pw2 = input("Enter Password 2 in the form of a number, maximum 14 digits (example: 22021985)\nPassword 2:")
+#         print("Your Password 2 is: ", pw2)
+#         password2 = float("0." + pw2 + "1")
 
-        # proses enkripsi dimulai
-        encrypt(gb, password1, password2)
-    else:
-        print("*" * 80)
-        print("Digital Image Decryption Algorithm Through Unimodular Matrix and Logistic Map")
-        print("-" * 50)
-        print()
-
-        gb = input("Now, insert your encrypted image with its extension (example: image.png):")
-        gbku = Image.open(gb)
-        mgb = np.array(gbku)
-        ukuran = mgb.size
-        faktor = sorted(factors(ukuran))
-
-        # print ukuran
-        print("----------------------------------------------------------------------------")
-        print(faktor)
-        print("----------------------------------------------------------------------------")
-
-        password1 = int(input("Please choose one of the numbers in the set above as Password 1:"))
-        # print password1
-        while password1 not in faktor:
-            print("Your choice is ", password1)
-            print("not in the given list.")
-            print("-" * 50, "\nThe list of numbers are:")
-            print(faktor)
-            password1 = int(input("Please choose again the right one:"))
-        print("Your Password 1 is: ", password1, "\n")
-        pw2 = input("Enter Password 2 in the form of a number, maximum 14 digits (example: 22021985)\nPassword 2:")
-        print("Your Password 2 is: ", pw2)
-        password2 = float("0." + pw2 + "1")
-
-        # decryption process begins
-        decrypt(gb, password1, password2)
+#         # decryption process begins
+#         decrypt(gb, password1, password2)
 
 if __name__ == '__main__':
     pass
