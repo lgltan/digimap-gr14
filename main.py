@@ -1,3 +1,9 @@
+# DIGIMAP - Group 14
+# Deculawan, Ryan Jay
+# Tan, Lance Griffin
+# Uy, Samuel Jedidiah
+# Yu, Ethan Angelo
+
 import streamlit as st
 import unimodular_chaos_encryption as uce
 import streamlit_toggle as tog  # pip install streamlit-toggle-switch
@@ -22,8 +28,6 @@ def run(col1, col2, image_path, option):
     pass_1_choices = uce.factors(
         image_array.size
     )  # Array of keys for pass 1 - need to reset per upload
-    print(pass_1_choices)
-    print("\n\n")
     pass_1 = int(st.selectbox("Choose a key:", pass_1_choices))
     pass_2 = st.text_input("Enter your password", type="password")
 
@@ -32,8 +36,6 @@ def run(col1, col2, image_path, option):
 
         encrypted = uce.encrypt(image_path, pass_1, pass_2)
         image_array = np.array(encrypted)
-        pass_2_choices = uce.factors(image_array.size)
-        print("\n\n")
 
         if option:  # Encrypt
             col2.write("### Encrypted Image :closed_lock_with_key:")
