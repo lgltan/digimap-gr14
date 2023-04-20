@@ -1,33 +1,21 @@
 import streamlit as st
 import unimodular_chaos_encryption as uce
+import  streamlit_toggle as tog # pip install streamlit-toggle-switch
 from PIL import Image
+from io import BytesIO
 import numpy as np
 
-# from numpy import load
-# from numpy import expand_dims
-# from numpy import load
-# from numpy import expand_dims
-# import os
+def convert_image(img):
+    buf = BytesIO()
+    img.save(buf, format="PNG")
+    byte_im = buf.getvalue()
+    return byte_im
 
-# def encrypt(img, pass_1, pass_2):
-#     uce.encrypt(img, pass_1, pass_2)
-
-# def decrypt(img, pass_1, pass_2):
-#     uce.decrypt(img, pass_1, pass_2)
-
-# def encrypted_img(img):
-#     col1.write("Original Image :camera:")
-#     col1.image(image)
-
-    # encrypted_img = encrypt(img, pass_1, pass_2)
-    # col2.write("Encrypted Image :closed_lock_with_key:")
-    # st.sidebar.markdown("\n")
-    # st.sidebar.download_button("Download encrypted image", encrypted_img, "encrypted.png", "image/png")
-
-
-def main2(col1,col2,image_path):
+def run(col1,col2,image_path, option):
     image = Image.open(image_path)
     image_array = np.array(image)
+    col1.write("Original Image :camera:")
+    col1.image(image)
 
     pass_1_choices = uce.factors(image_array.size) # Array of keys for pass 1 - need to reset per upload
     print(pass_1_choices)
@@ -47,13 +35,20 @@ def main2(col1,col2,image_path):
         print(pass_2_choices)
         print("\n\n")
 
-        col1.image(image)
+        if option: # Encrypt
+            col2.write("Encrypted Image :closed_lock_with_key:")
+            col2.image(encrypted)
+            downloadable = convert_image(encrypted)
+            st.sidebar.markdown("\n")
+            st.sidebar.download_button("Download encrypted image", downloadable, "encrypted.png", "image/png")
+        else:
+            decrypted = uce.decrypt(encrypted, pass_1, pass_2)
+            col2.write("Decrypted Image :unlock:")
+            col2.image(decrypted)
+            downloadable = convert_image(decrypted)
+            st.sidebar.markdown("\n")
+            st.sidebar.download_button("Download decrypted image", downloadable, "decrypted.png", "image/png")
 
-        #decrypted = uce.decrypt(encrypted, pass_1, pass_2)
-        col2.image(encrypted)
-
-
-    
 def main():
     st.set_page_config(layout="wide", page_title="")
     st.write("## Image Encryptor")
@@ -62,26 +57,12 @@ def main():
     )
     st.sidebar.write("## Upload and download :gear:")
     col1, col2 = st.columns(2)
-    image_path = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
-    
+    image_path = st.sidebar.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+    option = tog.st_toggle_switch(label="Encrypt", default_value=True, label_after=False)
+    print(option)
     if image_path is not None:
-        image = Image.open(image_path)
-        st.image(image_path, caption ="Input Image", use_column_width=True)
 
-        main2(col1 ,col2, image_path)
-
-
-
-
-    # image = Image.open("nature.png") # Temp
-    
-
-    
-    
-    # if image_path is not None:
-    #     encrypted_img(image)
-    # else:
-    #     encrypted_img("nature.png") # default 
+        run(col1 ,col2, image_path, option)
 
 if __name__ == "__main__":
     main()
